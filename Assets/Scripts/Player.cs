@@ -21,8 +21,11 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate(){
         Move();
-        if (Input.GetKeyDown(KeyCode.Space)){
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround()){
             Jump();
+        }
+        if (Input.GetMouseButtonDown(0)){
+            Scalling();
         }
     }
 
@@ -36,6 +39,14 @@ public class Player : MonoBehaviour
     }
     private void Jump(){
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+    /*Para que no salte en el aire*/
+    private bool isOnGround(){
+        return Physics.Raycast(transform.position, Vector3.down, 1f);
+    }
+    /*Testeando escalar la canica*/
+    private void Scalling(){
+        transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
     }
 
 }
