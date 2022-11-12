@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Rigidbody rb;
+    public CameraController camera;
     public float moveSpeed = 10f;
     private float xInput;
     private float zInput;
@@ -12,6 +13,9 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Awake(){
         rb = GetComponent<Rigidbody>();
+        Debug.Log("Player has awoken");
+        Debug.Log(gameObject.name);
+        Debug.Log(gameObject.tag);
     }
 
     // Update is called once per frame
@@ -47,6 +51,7 @@ public class Player : MonoBehaviour
     /*Testeando escalar la canica*/
     private void Scalling(){
         transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
+        camera.zOffSet -= 0.5f;
     }
 
 }
