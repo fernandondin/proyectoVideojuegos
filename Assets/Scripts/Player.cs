@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     private float xInput;
     private float zInput;
     public float jumpForce = 0.2f;
+    public int coins = 0;
     // Start is called before the first frame update
     void Awake(){
         rb = GetComponent<Rigidbody>();
@@ -28,11 +29,13 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround()){
             Jump();
         }
-        if (Input.GetMouseButtonDown(0)){
-            Scalling();
-        }
+        camera.zOffSet += Input.mouseScrollDelta.y;
+        camera.zOffSet = camera.zOffSet > -3f ? -3f : camera.zOffSet;
     }
 
+    private void rotateLeft(){
+        transform.Rotate(0, -1, 0);
+    }
     private void ProcessInputs(){
         xInput = Input.GetAxis("Horizontal");
         zInput = Input.GetAxis("Vertical");
@@ -48,10 +51,30 @@ public class Player : MonoBehaviour
     private bool isOnGround(){
         return Physics.Raycast(transform.position, Vector3.down, 1f);
     }
-    /*Testeando escalar la canica*/
-    private void Scalling(){
-        transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
-        camera.zOffSet -= 0.5f;
+    private void ScallingDown(float scale){
+        transform.localScale -= new Vector3(scale, scale, scale);
+    }
+    private void ScallingUp(float scale){
+        transform.localScale += new Vector3(scale, scale, scale);
+    }
+    void OnTriggerEnter(Collider other){
+        if (other.gameObject.name.Contains("Moneda")){
+            coins++;
+        }
+        if (other.gameObject.name.Contains("Jumper")){
+            JumpHightPerTime(8);
+        }
+        if (other.gameObject.name.Contains("Smaller")){
+            ScallingDown(1.5f);
+        }
+        if (other.gameObject.name.Contains("Bigger")){
+            ScallingUp(1.5f);
+        }
+    }
+    void JumpHightPerTime(int time){
+        for (int i = 0; i < time; i++){
+            Jump();
+        }
     }
 
 }

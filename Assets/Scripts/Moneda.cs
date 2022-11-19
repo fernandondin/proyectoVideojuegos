@@ -16,7 +16,7 @@ public class Moneda : MonoBehaviour
         
     }
     void OnTriggerEnter(Collider other){
-        if (other.gameObject.name == "CanicaPlayer"){
+       if (other.gameObject.name == "CanicaPlayer"){
             Destroy(gameObject);
             Debug.Log("Player has collected a coin");
         }
