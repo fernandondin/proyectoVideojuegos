@@ -70,6 +70,9 @@ public class Player : MonoBehaviour
         if (other.gameObject.name.Contains("Bigger")){
             ScallingUp(1.5f);
         }
+        if (other.gameObject.name.Contains("Slime")){
+            transform.position = new Vector3(0, 0, 0);
+        }
     }
     void JumpHightPerTime(int time){
         for (int i = 0; i < time; i++){
