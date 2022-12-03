@@ -5,6 +5,8 @@ using UnityEngine;
 public class Restart : MonoBehaviour
 {
     public GameObject player;
+    public CameraController camera;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +23,6 @@ public class Restart : MonoBehaviour
     void OnTriggerEnter(Collider other){
         if (other.gameObject.name == "CanicaPlayer"){
             other.gameObject.transform.position = new Vector3(0, 0, 0);
-            Debug.Log("Player has fallen");
         }
     }
 }

@@ -21,16 +21,16 @@ public class Player : MonoBehaviour
 
     // Update is called once per frame
     void Update(){
-     ProcessInputs(); 
+     //ProcessInputs(); 
+
     }
 
     private void FixedUpdate(){
-        Move();
+        //Move();
+        MovePlayerRelativeToCamera();
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround()){
             Jump();
         }
-        camera.zOffSet += Input.mouseScrollDelta.y;
-        camera.zOffSet = camera.zOffSet > -3f ? -3f : camera.zOffSet;
     }
 
     private void rotateLeft(){
@@ -40,6 +40,21 @@ public class Player : MonoBehaviour
         xInput = Input.GetAxis("Horizontal");
         zInput = Input.GetAxis("Vertical");
 
+    }
+    private void MovePlayerRelativeToCamera(){
+        float playerVerticalInput = Input.GetAxis("Vertical");
+        float playerHorizontalInput = Input.GetAxis("Horizontal");
+        Vector3 forward = camera.transform.forward;
+        Vector3 right = camera.transform.right;
+        forward.y = 0;
+        right.y = 0;
+        forward.Normalize();
+        right.Normalize();
+        Vector3 forwardRelativeVerticalInput = forward * playerVerticalInput;
+        Vector3 rightRelativeHorizontalInput = right * playerHorizontalInput;
+        Vector3 cameraRelativeMovement = forwardRelativeVerticalInput + rightRelativeHorizontalInput;
+        this.transform.Translate(cameraRelativeMovement * moveSpeed * Time.deltaTime, Space.World);
+        
     }
     private void Move(){
         rb.AddForce(new Vector3(xInput, 0f, zInput) * moveSpeed);

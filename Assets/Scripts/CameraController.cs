@@ -5,12 +5,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public GameObject player;
-    public float xOffSet;
-    public float yOffSet;
-    public float zOffSet;
-    public float speed = 3f;
-    public float orbitDistance = 5f;
-    public float orbitDegreesPerSec = 1.0f;
+    public float angle;
+    public float distance;
     // Start is called before the first frame update
     void Start(){
     }
@@ -18,19 +14,17 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.position = player.transform.position + new Vector3(xOffSet, yOffSet, zOffSet);
-        Orbit();
-        transform.LookAt(player.transform.position);
-        //transform.RotateAround(player.transform.position , Vector3.up, Input.GetAxis("Mouse X") * speed);
+        float hor = Input.GetAxis("Mouse X");
+        if (hor != 0){
+            angle += hor * Mathf.Deg2Rad;
+        }
         
-    }   
-    void Orbit()
-     {
-         if(player != null)
-         {
-            
-             transform.position = player.transform.position + (transform.position - player.transform.position).normalized * orbitDistance;
-             transform.RotateAround(player.transform.position, Vector3.up, Input.GetAxis("Mouse X") * speed );
-         }
-     }
+    }
+    void LateUpdate(){
+        Vector3 orbit = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle));
+        Vector3 pos = new Vector3(player.transform.position.x, player.transform.position.y + 2, player.transform.position.z);
+        transform.position = pos + orbit * distance;
+        transform.rotation = Quaternion.LookRotation(player.transform.position - transform.position);
+    }
+    
 }
