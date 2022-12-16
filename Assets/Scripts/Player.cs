@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 public class Player : MonoBehaviour
 {
     public Rigidbody rb;
@@ -11,7 +13,9 @@ public class Player : MonoBehaviour
     private float zInput;
     public float jumpForce = 0.2f;
     public int coins = 0;
+    public int totalCoins;
     public Text coinsText;
+    public string sceneName;
     // Start is called before the first frame update
     void Awake(){
         rb = GetComponent<Rigidbody>();
@@ -27,7 +31,10 @@ public class Player : MonoBehaviour
     }
 
     private void FixedUpdate(){
-        coinsText.text = coins.ToString()+"/10";
+        if(totalCoins == coins){
+            SceneManager.LoadScene(sceneName);
+        }
+        coinsText.text = coins.ToString()+"/"+totalCoins.ToString();
         //Move();
         MovePlayerRelativeToCamera();
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround()){
@@ -87,8 +94,8 @@ public class Player : MonoBehaviour
         if (other.gameObject.name.Contains("Bigger")){
             ScallingUp(1.5f);
         }
-        if (other.gameObject.name.Contains("Slime")){
-            transform.position = new Vector3(0, 0, 0);
+        if (other.gameObject.name.Contains("Slime") || other.gameObject.name.Contains("Tortuga")){
+            transform.position = new Vector3(0, 3, 0);
         }
     }
     void JumpHightPerTime(int time){
