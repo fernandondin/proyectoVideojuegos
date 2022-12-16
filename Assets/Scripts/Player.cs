@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     public Rigidbody rb;
@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private float zInput;
     public float jumpForce = 0.2f;
     public int coins = 0;
+    public Text coinsText;
     // Start is called before the first frame update
     void Awake(){
         rb = GetComponent<Rigidbody>();
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour
     }
 
     private void FixedUpdate(){
+        coinsText.text = coins.ToString()+"/10";
         //Move();
         MovePlayerRelativeToCamera();
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround()){

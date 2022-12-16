@@ -22,7 +22,7 @@ public class Restart : MonoBehaviour
 
     void OnTriggerEnter(Collider other){
         if (other.gameObject.name == "CanicaPlayer"){
-            other.gameObject.transform.position = new Vector3(0, 0, 0);
+            other.gameObject.transform.position = new Vector3(0, 3, 0);
         }
     }
 }
